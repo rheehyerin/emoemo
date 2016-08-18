@@ -10,7 +10,12 @@ main
 {% endblock head_extra %}
 
 {% block content %}
-    <form>
+    <form action="{% url 'blog:post_create' %}" method="post">
+    {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input type="submit" name="" />
     </form>
     <div class="main-wrapper">
         <header class="main-header">

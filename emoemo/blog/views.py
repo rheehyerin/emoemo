@@ -6,7 +6,7 @@ from .forms import PostForm, CommentForm
 
 def post_list(request):
     post_list = Post.objects.all()
-    form = PostForm(request.POST or None, request.FILES or None)
+    form = PostForm()
     context = {
             "post_list":post_list,
             "form":form
