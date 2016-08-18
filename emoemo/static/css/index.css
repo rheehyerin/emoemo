@@ -18,13 +18,14 @@
 .content-wrapper .content {
     float: left;
     display: inline-block;
-    min-height: 600px;
+    min-height: 200px;
     width: 270px;
     margin: 20px;
+    background-color: tomato;
+    border-radius: 5px;
 }
 
 .content-wrapper .content h2, p {
     text-align: center;
     margin: 0;
 }
-

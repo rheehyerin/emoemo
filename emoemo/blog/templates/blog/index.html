@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
 {% block head_title %}
 main
 {% endblock head_title %}
@@ -10,13 +20,17 @@ main
 {% endblock head_extra %}
 
 {% block content %}
+    <div class="col-sm-6 col-sm-offset-3">
     <form action="{% url 'blog:post_create' %}" method="post">
     {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type="submit" name="" />
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+            {%  bootstrap_icon "star" %} Submit
+            </button>
+            {% endbuttons %}
     </form>
+    </div>
     <div class="main-wrapper">
         <header class="main-header">
         </header>
@@ -24,7 +38,7 @@ main
         {% for post in post_list %}
         <div class="content">
             <a href="{% url 'blog:post_detail' post.id %}">
-                <img src="http://placehold.it/300x460" />
+
                 <h2>{{ post.author }}</h2>
                 <p>{{ post.content }}</p>
             </a>
