@@ -1,9 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>post_detail</title>
-</head>
-<body>
-    <h1>하이하이</h1>
-</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}
+post_detail
+{% endblock head_title %}
+
+{% block content %}
+
+
+<div class="col-sm-6 col-sm-offset-3">
+<p>by{{post.author}}</p><span>{{post.publish}}</span>
+<p>{{post.content}}</p>
+</div>
+
+{% endblock content %}

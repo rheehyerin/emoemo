@@ -1,9 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>인덱스 페이지</title>
-</head>
-<body>
-    <h1>메인 페이지</h1>
-</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}
+main
+{% endblock head_title %}
+
+{% block head_extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock head_extra %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <header class="main-header">
+        </header>
+        <div class="content-wrapper">
+        {% for post in post_list %}
+        <div class="content">
+            <a href="{% url 'blog:post_detail' post.id %}">
+                <img src="http://placehold.it/300x460" />
+                <h2>{{ post.author }}</h2>
+                <p>{{ post.content }}</p>
+            </a>
+        </div>
+        {% endfor %}
+        </div>
+        <footer></footer>
+    </div>
+{% endblock content %}

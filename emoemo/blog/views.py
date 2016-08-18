@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 def post_list(request):
     post_list = Post.objects.all()
@@ -12,4 +14,13 @@ def post_detail(request, post_id):
         "post":post,
     }
     return render(request, 'blog/post_detail.html', context)
+
+def post_create(request):
+    if request.method == 'POST':
+        instance = form.save(commit=False)
+        instance.author = request.user
+        instance.save()
+        messages.success(request, "Successfully Created")
+        pass
+
 

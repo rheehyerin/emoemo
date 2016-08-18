@@ -1,0 +1,29 @@
+
+/*본문 이미지 박스*/
+.content {
+    margin: auto;
+}
+
+.content img {
+    display: inline-block;
+    padding: 10px;
+}
+
+.content-wrapper {
+    overflow: hidden;
+    width: 90%;
+    margin: auto;
+}
+
+.content-wrapper .content {
+    float: left;
+    min-height: 600px;
+    width: 25%;
+    margin: 4%;
+}
+
+.content-wrapper .content h2, p {
+    text-align: center;
+    margin: 0;
+}
+
