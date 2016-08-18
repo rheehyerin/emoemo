@@ -4,7 +4,6 @@ from django.db import models
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
-    publish = models.DateField(auto_now=False, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     content = models.TextField(max_length=150)
