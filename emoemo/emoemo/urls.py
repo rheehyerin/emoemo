@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.shortcuts import redirect
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^friendship/', include('friendship.urls')),
+    url(r'^$', lambda request: redirect('/blog/')),
+    url(r'^accounts/', include('accounts.urls')),
+    url(r'^blog/', include('blog.urls')),
 ]
