@@ -1,0 +1,70 @@
+<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+
+<div class="requests">
+{% for f_u in follow_list %}
+{% if f_u.is_approved == False %}
+<div class="request_list">
+<button id="is_approved_fn" value="{{ f_u.pk }}">{{ f_u.from_user }}</button>
+<div>
+<ul>
+    <from action="{% url 'accounts:aprv_request_list' f_u.pk %}" method="post" class="aprv-form">
+    {% csrf_token %}
+    </from>
+    <form action="{% url 'accounts:del_request_list' f_u.pk %}" method="post" class="del-form">
+    {% csrf_token %}
+    </form>
+       <li><a href="#" class="approved">추가</a></li>
+    <li><a href="#" class="rejected">삭제</a></li>
+
+</ul>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+</div>
+
+<script>
+$("button").click(function(){
+    alert($(this).attr("value"));
+});
+
+$(".approved").each(function(){
+    $(this).on('click', function(){
+        if(confirm("친구 리스트에 추가 하시겠습니가?")){
+            var $form = $(this).closest(".request_list").find('.aprv-form');
+            $.ajax({
+                url : $form.attr('action'),
+                type : 'POST',
+                data : {
+                    'csrfmiddlewaretoken': $form.find('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success : function(data){
+                    if(data){
+                        $('.requests').html(data);
+                    }
+                }
+            })
+        }
+    })
+})
+
+$(".rejected").each(function(){
+    $(this).on('click', function(){
+        if(confirm("팔로우 리스트에서 삭제 하시겠습니까?")){
+            var $form = $(this).closest(".request_list").find('.del-form');
+            $.ajax({
+                url : $form.attr('action'),
+                type : 'POST',
+                data : {
+                    'csrfmiddlewaretoken': $form.find('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success : function(data){
+                    if(data){
+                        $('.requests').html(data);
+                    }
+                }
+            });
+        }
+    });
+});
+</script>

@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block head_title %}
+main
+{% endblock head_title %}
+
 {% block content %}
-
-
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
         </header>
@@ -22,17 +34,21 @@
                     {% endbuttons %}
                 </form>
             </div>
+    <div class="main-wrapper">
+        <header class="main-header">
+        </header>
+        <div class="content-wrapper">
         {% for post in posts %}
+        <a href="{% url 'blog:post_detail' post.id %}">
         <div class="content">
-            <a href="{% url 'blog:post_detail' post.id %}">
-                <img src="http://placehold.it/300x460" />
                 <h2>{{ post.author }}</h2>
                 <p>{{ post.content }}</p>
                 <p> asdasd </p>
             </a>
         </div>
+        </a>
         {% endfor %}
         </div>
         <footer></footer>
     </div>
-{% endblock %}
+    {% endblock content %}

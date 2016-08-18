@@ -1,0 +1,47 @@
+<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+
+<form id="follow" action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ follow_form.as_table }}
+    </table>
+</form>
+    <button id="delay">A</button>
+
+<script>
+
+$("#delay").click(function(){
+    if(confirm("친구를 추가하시겠습니까?")==true){
+        $("#follow").submit();
+    }else{
+    }
+});
+/*
+$('#comments__new').click(function (e){
+    e.preventDefault();
+    $.ajax({
+        url: $(location).attr('href'),
+        type: 'POST',
+        data: {
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            'message': $('form textarea[name=message]').val(),
+        },
+        success: function(data){
+            if (data){
+                $('.comments').html(data);
+            }
+            else{
+                console.error('데이터가 안넘어옴');
+            }
+        },
+        error: function(xhr,errmsg,err){
+            console.error(err);
+        },
+        complete: function() {
+            $.getScript(js_root, function(){});
+            $.getScript(customjs_root, function(){});
+        }
+    });
+});
+*/
+</script>

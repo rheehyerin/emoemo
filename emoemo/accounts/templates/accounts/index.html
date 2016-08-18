@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+from_user <br />
+<select>
+{% for user in user %}
+<option value="{{ user.id }}">
+{{ user.username }}
+</option>
+{% endfor %}
+</select>
+<br/>
+<br/>
+to_user<br />
+<select>
+{% for user in user %}
+<option value="{{ user.id }}">
+{{ user.username }}
+</option>
+{% endfor %}
+</select>
+<br/>
+<button type="submit">팔로우하기</button>
+</body>
+</html>

@@ -13,6 +13,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     content = models.TextField(max_length=150, validators=[MinLengthValidatior(10)])
     tag_set = models.ManyToManyField('Tag', blank=True)
+
     # fonts # 폰트 선택
     # pallete # 색깔 선택
     # tags # 최대 3개

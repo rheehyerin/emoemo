@@ -6,8 +6,9 @@ from blog import views
 app_name ="blog"
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^base/$', views.base, name="base"),
+    url(r'^(?P<post_id>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^create/$', views.post_create, name='post_create'),
-    url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
-    url(r'^post/(?P<post_pk>\d+)/comments/new/$', views.comment_new, name="comments"),
+    url(r'^(?P<post_id>\d+)/comment/new/$', views.comment_create, name='comment_create'),
+    url(r'^(?P<post_id>\d+)/comment/new/(?P<comment_id>\d+)/edit/$', views.comment_update, name='comment_update'),
+    url(r'^(?P<post_id>\d+)/comment/new/(?P<comment_id>\d+)/delete/$', views.comment_delete, name='comment_delete'),
 ]
