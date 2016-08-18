@@ -18,10 +18,10 @@ post_detail
     <li>
         {{comment.content}} by {{comment.author}}
         <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
-        <a href="{% url 'blog:post_detail' comment.id %}">삭제</a>
+        <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
     </li>
     {% endfor %}
-    <a href="{% url 'blog:post_list' %}">글 목록으로</a>
+    <a href="{% url 'blog:index' %}">글 목록으로</a>
 </ul>
 </div>
 

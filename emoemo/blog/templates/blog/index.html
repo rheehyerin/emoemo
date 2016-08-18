@@ -21,28 +21,28 @@ main
 
 {% block content %}
     <div class="col-sm-6 col-sm-offset-3">
-    <form action="{% url 'blog:post_create' %}" method="post">
-    {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-primary">
-            {%  bootstrap_icon "star" %} Submit
-            </button>
+        <form action="{% url 'blog:post_create' %}" method="post">
+        {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                {%  bootstrap_icon "star" %} Submit
+                </button>
             {% endbuttons %}
-    </form>
-    </div>
+        </form>
+        </div>
     <div class="main-wrapper">
         <header class="main-header">
         </header>
         <div class="content-wrapper">
         {% for post in post_list %}
+        <a href="{% url 'blog:post_detail' post.id %}">
         <div class="content">
-            <a href="{% url 'blog:post_detail' post.id %}">
-
                 <h2>{{ post.author }}</h2>
                 <p>{{ post.content }}</p>
-            </a>
+
         </div>
+        </a>
         {% endfor %}
         </div>
         <footer></footer>

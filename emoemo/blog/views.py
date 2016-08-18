@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import PostForm, CommentForm
 
-def post_list(request):
+def index(request):
     post_list = Post.objects.all()
     form = PostForm()
     context = {
@@ -28,7 +28,7 @@ def post_create(request):
             instance.author = request.user
             instance.save()
             messages.success(request, "Successfully Created")
-            return redirect("blog:post_list")
+            return redirect("blog:index")
     else:
         form = PostForm()
 
@@ -78,8 +78,9 @@ def comment_update(request, post_id, comment_id):
 
     return render(request, 'blog/comment_form.html', context)
 
-def comment_delete(request, comment_id):
-    instance = get_object_or_404(Comment, comment_id)
-    instance.delete()
+def comment_delete(request, post_id, comment_id):
+    post = get_object_or_404(Post, pk=post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete()
     messages.success(request, "삭제 완료")
-    return redirect("blog:post_detail")
+    return redirect("blog:post_detail", post_id)
