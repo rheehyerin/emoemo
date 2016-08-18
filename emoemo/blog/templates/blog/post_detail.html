@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}
+post_detail
+{% endblock head_title %}
+
+{% block content %}
+
+
+<div class="col-sm-6 col-sm-offset-3">
+<p>by{{post.author}}</p><span>{{post.publish}}</span>
+<p>{{post.content}}</p>
+<h3>댓글</h3>
+<ul>
+    <a href="{% url 'blog:comment_create' post.id %}">댓글 달기</a>
+    {% for comment in post.comment_set.all %}
+    <li>
+        {{comment.content}} by {{comment.author}}
+        <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
+        <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
+    </li>
+    {% endfor %}
+    <a href="{% url 'blog:index' %}">글 목록으로</a>
+</ul>
+</div>
+
+{% endblock content %}
