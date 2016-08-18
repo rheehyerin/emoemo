@@ -1,29 +1,38 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block head_title %}
-main
-{% endblock head_title %}
-
-{% block head_extra %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-{% endblock head_extra %}
-
 {% block content %}
-    <div class="main-wrapper">
+
+
+    <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
         </header>
         <div class="content-wrapper">
-        {% for post in post_list %}
+        <button onclick="myFunction()">글 남기기</button>
+
+
+        <div class="col-sm-6 col-sm-offset-3">
+                <form action="{% url 'blog:post_create' %}" method="post">
+                {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">
+                        {%  bootstrap_icon "star" %} Submit
+                        </button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        {% for post in posts %}
         <div class="content">
             <a href="{% url 'blog:post_detail' post.id %}">
                 <img src="http://placehold.it/300x460" />
                 <h2>{{ post.author }}</h2>
                 <p>{{ post.content }}</p>
+                <p> asdasd </p>
             </a>
         </div>
         {% endfor %}
         </div>
         <footer></footer>
     </div>
-{% endblock content %}
+{% endblock %}

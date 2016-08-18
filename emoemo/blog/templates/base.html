@@ -17,7 +17,132 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.js'></script>
+  <script type="text/javascript">
+      $(window).scroll(function(){
+          if ($(window).scrollTop() >= 330) {
+            $('.navbar').addClass('fixed');
+           }
+           else {
+            $('.navbar').removeClass('fixed');
+           }
+        });
+  </script>
+  <style type="text/css">
 
+    .fixed-nav-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        width: 100%;
+        height: 50px;
+        background: #FFFFFF;
+    }
+
+    #navbar {
+      height:70px;
+      border-bottom: 1px solid #CDCDCD;
+    }
+    #logo_image {
+      height: 70px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+    #logo_letter {
+      height: 100px;
+      position: absolute;
+      top: -12px;
+      left: 115px;
+    }
+    #navigation_footer {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+    input {
+      outline: none;
+    }
+    input[type=search] {
+      -webkit-appearance: textfield;
+      -webkit-box-sizing: content-box;
+      font-family: inherit;
+      font-size: 100%;
+    }
+    input::-webkit-search-decoration,
+    input::-webkit-search-cancel-button {
+      display: none;
+    }
+
+
+    input[type=search] {
+      background: #ededed url(http://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+      border: solid 1px #ccc;
+      padding: 9px 10px 9px 32px;
+      width: 55px;
+
+      -webkit-border-radius: 10em;
+      -moz-border-radius: 10em;
+      border-radius: 10em;
+
+      -webkit-transition: all .5s;
+      -moz-transition: all .5s;
+      transition: all .5s;
+    }
+    input[type=search]:focus {
+      width: 130px;
+      background-color: #fff;
+      border-color: #66CC75;
+
+      -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+      -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+      box-shadow: 0 0 5px rgba(109,207,246,.5);
+    }
+
+
+    input:-moz-placeholder {
+      color: #999;
+    }
+    input::-webkit-input-placeholder {
+      color: #999;
+    }
+    #tag_search {
+      position: absolute;
+      top: 15px;
+      left: 45%;
+    }
+    #tag_search input[type=search] {
+      width: 15px;
+      padding-left: 10px;
+      color: transparent;
+      cursor: pointer;
+    }
+    #tag_search input[type=search]:hover {
+      background-color: #fff;
+    }
+    #tag_search input[type=search]:focus {
+      width: 130px;
+      padding-left: 32px;
+      color: #000;
+      background-color: #fff;
+      cursor: auto;
+    }
+    #tag_search input:-moz-placeholder {
+      color: transparent;
+    }
+    #tag_search input::-webkit-input-placeholder {
+      color: transparent;
+    }
+    .body {
+      background: grey;
+    }
+  </style>
     {% block head_extra %}
     {% endblock head_extra %}
 
@@ -26,9 +151,6 @@
 
 <body>
 
-    {% block content %}
-
-    {%  endblock content%}
 
     <!-- Latest compiled and minified JavaScript -->
     <script   src="http://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
@@ -36,6 +158,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<nav class="fixed-nav-bar" id="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a href="/blog"><img id="logo_image" class="navbar-brand" src="{% static 'img/logo image.png' %}"></a>
+        <a href="/blog"><img id="logo_letter" class="navbar-brand" src="{% static 'img/logo letter.png' %}"></a>
+    </div>
+    <div>
+        <form id="tag_search">
+          <input type="search" placeholder="검색">
+        </form>
+    </div>
+    <div class="nav navbar-nav" id="navigation_footer">
+      <li><a href="#"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
+      <li><a href="#"><img id="home" class="nav_img" href="mypage.html" src="{% static 'img/home.png' %}" style="width:30px;"></a></li>
+    </div>
+  </div>
+</nav>
 
+
+    {% block content %}
+
+    {%  endblock content%}
 </body>
+  <script type="text/javascript">
+      $(window).scroll(function(){
+          if ($(window).scrollTop() >= 330) {
+            $('.navbar').addClass('fixed');
+           }
+           else {
+            $('.navbar').removeClass('fixed');
+           }
+        });
+  </script>
 </html>
