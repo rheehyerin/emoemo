@@ -17,9 +17,10 @@
 
 .content-wrapper .content {
     float: left;
+    display: inline-block;
     min-height: 600px;
-    width: 25%;
-    margin: 4%;
+    width: 270px;
+    margin: 20px;
 }
 
 .content-wrapper .content h2, p {
