@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Follow
 
 class SignupForm(UserCreationForm):
     username = forms.EmailField(label='Email')
@@ -10,3 +12,11 @@ class SignupForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class FollowModelForm(forms.ModelForm):
+    class Meta:
+        model = Follow
+        fields = ['to_user']
+        labels = {
+            'to_user': '추가할 친구 ID',
+        }

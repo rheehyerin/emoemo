@@ -1,0 +1,10 @@
+<p> follower list </p>
+
+{% for follower in follower_list %}
+{{ follower.from_user.username }}<br />
+{% endfor %}
+<hr>
+<p> following list </p>
+{% for following in following_list %}
+{{ following.to_user.username }}<br />
+{% endfor %}
