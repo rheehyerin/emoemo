@@ -81,6 +81,32 @@
       display: none;
     }
 
+    .nav_icon_img{
+      position: relative;
+      top:10px;
+      width:80px;
+      height:50px;
+    }
+
+    .nav_icon_img li{
+      display: block;
+      width:30px;
+      float:left;
+      margin:5%;
+    }
+
+
+    #logout_p{
+      position:absolute;
+      right:50%;
+      top:70%;
+    }
+
+    .form-container{
+      position: absolute;
+      width:300px;
+      right:30px;
+    }
 
     input[type=search] {
       background: #ededed url(http://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
@@ -147,6 +173,7 @@
     body {
       padding-top: 100px;
     }
+
   </style>
     {% block head_extra %}
     {% endblock head_extra %}
@@ -166,7 +193,11 @@
 <nav class="fixed-nav-bar" id="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
+
         <a href="/blog"><img id="logo_image" class="navbar-brand" src="{% static 'img/logo image.png' %}"></a>
+
+
+
         <a href="/blog"><img id="logo_letter" class="navbar-brand" src="{% static 'img/logo letter.png' %}"></a>
     </div>
     <div>
@@ -175,8 +206,22 @@
         </form>
     </div>
     <div class="nav navbar-nav" id="navigation_footer">
-      <li><a href="#"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
-      <li><a href="#"><img id="home" class="nav_img" href="mypage.html" src="{% static 'img/home.png' %}" style="width:30px;"></a></li>
+    <ul class="nav_icon_img">
+    {% if user.is_authenticated %}
+      <li><a href="#" id="user_a"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
+      <p id="logout_p"><a href="{% url 'accounts:logout' %}">[logout]</a></p>
+    {% else %}
+    <div class="form-container">
+     <form method="post" action="{% url 'accounts:my_log' %}">
+      {% csrf_token %}
+      <input type="text" name="username" value="username">
+      <input type="password" name="password" value="password">
+      <input type="submit" value="login" />
+      </form>
+    </div>
+    {% endif %}
+      <li><a href="#" id="howe_a"><img id="home" class="nav_img" href="mypage.html" src="{% static 'img/home.png' %}" style="width:30px;"></a></li>
+    </ul>
     </div>
   </div>
 </nav>
