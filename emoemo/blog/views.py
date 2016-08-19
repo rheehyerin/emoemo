@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
 from accounts.models import *
 
+from django.contrib.auth.forms import AuthenticationForm
+
 # def post_list(request):
 #     post_list = Post.objects.all()
 #     context = {"post_list":post_list}
@@ -45,6 +47,7 @@ def comment_new(request):
 
 def index(request):
     posts = Post.objects.order_by('pk').reverse()
+    login_form = AuthenticationForm()
     if request.method == 'POST' and request.is_ajax():
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -56,10 +59,13 @@ def index(request):
     else:
         form = PostForm()
     #posts = Post.objects.all()
-    return render(request, 'blog/index.html',
-        {'posts': posts,
-         'form':form}
-    )
+    context = {
+                'posts':posts,
+                'form':form,
+                'login_form':login_form,
+    }
+
+    return render(request, 'blog/index.html',context)
 
 def comment_create(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
