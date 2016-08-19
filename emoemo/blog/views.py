@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
+from accounts.models import *
 
 # def post_list(request):
 #     post_list = Post.objects.all()
