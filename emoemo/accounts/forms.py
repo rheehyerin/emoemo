@@ -20,3 +20,6 @@ class FollowModelForm(forms.ModelForm):
         labels = {
             'to_user': '추가할 친구 ID',
         }
+
+class UserIdForm(forms.Form):
+    user_id = forms.IntegerField(label="추가할 친구 ID")

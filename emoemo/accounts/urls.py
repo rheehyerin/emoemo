@@ -13,9 +13,10 @@ urlpatterns = [
         'template_name' : 'blog/index.html',
         }),
     url(r'^index/$', views.index, name="index"),
-    url(r'^follow/$', views.follow),
+    url(r'^follow/$', views.follow, name="follow"),
     url(r'^request_list/$', views.request_list, name="request_list"),
     url(r'^friend_list/$', views.friend_list, name="friend_list"),
     url(r'^request_list/(?P<pk>\d+)/del/$', views.del_request_list, name="del_request_list"),
     url(r'^request_list/(?P<pk>\d+)/apv/$', views.aprv_request_list, name="aprv_request_list"),
+    url(r'^follow/search/$', views.search_follow, name="search_follow"),
 ]
