@@ -55,10 +55,9 @@ main
                 <div class="card-content">
                   <h2>{{ post.content }}</h2>
                   <p> {{ post.created_at | date:"Y/m/d, g:i a" }}</p>
-                {% for key, value in post.tag_set.all.values.last.items %}
-                <p>{{ value }},</p>
-                {% endfor %}
-
+                  {% for tag in post.tag_set.all %}
+                  <span>{{ tag.name }}{% if not forloop.last %},{% endif %}</span>
+                  {% endfor %}
                 </div>
 
             <div class="{{post.id}}th-comment-wrapper-btn">
