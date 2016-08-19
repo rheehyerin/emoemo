@@ -14,11 +14,11 @@ post_detail
 
 <h3>댓글</h3>
 <ul>
-        <form action="{% url 'blog:comment_create' post.id %}" method="post">
-        {% csrf_token %}
-            <input name="content" value="{{ content }}">
-            <input type="submit" value="댓글 달기" class="btn btn-primary">
-        </form>
+    <form action="{% url 'blog:comment_create' post.id %}" method="post">
+    {% csrf_token %}
+        <input name="content" value="{{ content }}">
+        <input type="submit" value="댓글 달기" class="btn btn-primary">
+    </form>
     {% for comment in post.comment_set.all %}
     <li>
         {{comment.content}} by {{comment.author}}
