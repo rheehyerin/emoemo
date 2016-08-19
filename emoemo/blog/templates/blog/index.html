@@ -99,6 +99,7 @@ main
 
 
     {% for post in post_list %}
+      $(".{{post.id}}th-comment-wrapper").hide()
       $(".{{post.id}}th-comment-wrapper-btn").click(function(){
         $(".{{post.id}}th-comment-wrapper").slideToggle(0);
     })
