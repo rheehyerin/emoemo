@@ -96,7 +96,7 @@ main
 </div>
 {% for post in posts %}
   <div class="card-wrapper">
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="col-sm-6 col-sm-offset-3" style="background-color: {{ themes.background_colors|random }}">
         <div class="bs-component">
             <div class="card">
                 <div class="card-content"><img class="card-avatar card-image" src="http://placehold.it/20x20 "> by {{post.author}}

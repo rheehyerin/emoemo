@@ -7,13 +7,13 @@ from django.forms import ValidationError
 from django.utils import timezone
 from .validators import MinLengthValidatior
 from django.core.urlresolvers import reverse
+import random
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_at = models.DateTimeField(default=timezone.now)
     content = models.TextField(max_length=150, validators=[MinLengthValidatior(6)])
     tag_set = models.ManyToManyField('Tag', blank=True)
-
 
     class Meta:
         ordering = ['-created_at']
