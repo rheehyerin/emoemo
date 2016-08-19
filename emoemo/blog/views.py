@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Post, Comment
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -33,8 +33,10 @@ def post_create(request):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+    form = CommentForm()
     context = {
         "post":post,
+        "form":form,
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -61,6 +63,7 @@ def index(request):
 
 def comment_create(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+
 
     if request.method == 'POST':
         form = CommentForm(request.POST or None, request.FILES or None)

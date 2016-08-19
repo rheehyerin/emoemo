@@ -27,6 +27,9 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     content = models.TextField(max_length=150)
 
+    class Meta:
+        ordering = ['-timestamp']
+
     def __str__(self):
         return self.post
 
