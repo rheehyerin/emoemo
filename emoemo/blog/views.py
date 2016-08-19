@@ -7,7 +7,6 @@ from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
 
 # def post_list(request):
 #     post_list = Post.objects.all()
@@ -20,7 +19,7 @@ def base(request):
 @login_required
 def post_create(request):
     if request.method == 'POST':
-        post_form = PostForm(request.POST, request.FILES)
+        post_form = PostForm(request.POST or None, request.FILES or None)
         if post_form.is_valid():
             instance = post_form.save(commit=False)
             instance.author = request.user
@@ -29,7 +28,7 @@ def post_create(request):
             instance.add_tags(post_form.cleaned_data['tag_names'])
             return redirect("blog:index")
     else:
-        form = PostForm()
+        post_form = PostForm()
 
     context = {
         "post_form":post_form,
@@ -52,7 +51,7 @@ def post_update(request, post_id):
     context = {
         "form":form,
     }
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/post_form.html', context)
 
 @login_required
 def post_delete(request, post_id):
