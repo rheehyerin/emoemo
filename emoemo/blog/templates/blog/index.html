@@ -52,12 +52,23 @@ main
         </header>
         <div class="content-wrapper">
         {% for post in posts %}
-        <a href="{% url 'blog:post_detail' post.id %}">
         <div class="content">
                 <h2>{{ post.content }}</h2><p> {{ post.created_at }}  by {{ post.author }}</p>
                 <p>태그:{{ post.tag_set }}</p>
-
-            </a>
+                <ul>
+                    <form action="{% url 'blog:comment_create' post.id %}" method="post">
+                    {% csrf_token %}
+                        <input name="content" value="{{ content }}">
+                        <input type="submit" value="댓글 달기" class="btn btn-primary">
+                    </form>
+                    {% for comment in post.comment_set.all %}
+                    <li>
+                        {{comment.content}} by {{comment.author}}
+                        <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
+                        <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
+                    </li>
+                    {% endfor %}
+                </ul>
         </div>
         </a>
         {% endfor %}

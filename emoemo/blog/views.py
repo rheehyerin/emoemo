@@ -78,7 +78,7 @@ def comment_create(request, post_id):
             instance.author = request.user
             instance.post = post
             instance.save()
-            return redirect('blog:post_detail', post_id)
+            return redirect('/', post_id)
     else:
         form = CommentForm()
 
@@ -99,7 +99,7 @@ def comment_update(request, post_id, comment_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('blog:post_detail', post_id)
+            return redirect('/')
     else:
         form = CommentForm(instance=comment)
     context = {
@@ -113,4 +113,4 @@ def comment_delete(request, post_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     comment.delete()
     messages.success(request, "삭제 완료")
-    return redirect("blog:post_detail", post_id)
+    return redirect("/")
