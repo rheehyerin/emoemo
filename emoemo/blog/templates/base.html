@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="your_path/smt-bootstrap.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -169,9 +170,7 @@
       background: grey;
     }
 
-    body {
-      padding-top: 100px;
-    }
+
 
   </style>
     {% block head_extra %}
@@ -215,7 +214,8 @@
       {% csrf_token %}
       <input type="text" name="username" value="username">
       <input type="password" name="password" value="password">
-      <input type="submit" value="login" />
+      <input type="submit" value="login">
+      <a class="button" href="{% url 'accounts:signup' %}">sign-up</a>
       </form>
     </div>
     {% endif %}
@@ -230,7 +230,4 @@
 
     {%  endblock content%}
 </body>
-<script type="text/javascript">
-    #id_tag_set
-</script>
 </html>

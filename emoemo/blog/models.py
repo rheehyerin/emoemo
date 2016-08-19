@@ -14,6 +14,9 @@ class Post(models.Model):
     content = models.TextField(max_length=150, validators=[MinLengthValidatior(6)])
     tag_set = models.ManyToManyField('Tag', blank=True)
 
+
+    class Meta:
+        ordering = ['-created_at']
     # fonts # 폰트 선택
     # pallete # 색깔 선택
     # tags # 최대 3개
@@ -36,8 +39,6 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-timestamp']
 
-    def __str__(self):
-        return self.post
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, blank=True)

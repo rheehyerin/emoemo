@@ -1,29 +1,13 @@
 
 /*본문 이미지 박스*/
-.content {
-    margin: auto;
-}
 
-.content img {
-    display: inline-block;
-    padding: 10px;
-}
-
-.content-wrapper {
-    width: 100%;
-}
-
-.content-wrapper .content {
-    float: left;
-    display: inline-block;
-    min-height: 200px;
-    width: 270px;
-    margin: 4% 7% auto;
-    background-color: tomato;
+.card-wrapper .col-sm-6 {
+    border: 1px solid black;
     border-radius: 5px;
+    margin-bottom: 50px;
 }
 
-.content-wrapper .content h2, p {
-    text-align: center;
-    margin: 0;
+.comment-list {
+    list-style: none;
+    margin-left: 20px;
 }
