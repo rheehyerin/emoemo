@@ -15,7 +15,6 @@ class Post(models.Model):
     content = models.TextField(max_length=150, validators=[MinLengthValidatior(6)])
     tag_set = models.ManyToManyField('Tag', blank=True)
 
-
     class Meta:
         ordering = ['-created_at']
     # fonts # 폰트 선택
