@@ -119,7 +119,7 @@ main
 
     {% for post in posts %}
       $(".{{post.id}}th-comment-wrapper-btn").click(function(){
-        $(".{{post.id}}th-comment-wrapper").slideToggle(1000);
+        $(".{{post.id}}th-comment-wrapper").slideToggle(0);
     })
 
     {% endfor %}
