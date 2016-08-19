@@ -35,7 +35,7 @@ class Comment(models.Model):
 
 
 class Tag(models.Model):
-    name = models.ManyToManyField('Tag', blank=True)
+    name = models.ManyToManyField('Post', blank=True)
 
     def __str__(self):
         return self.name
