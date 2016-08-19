@@ -56,7 +56,9 @@ main
             <div class="card-content">
                 <h2>{{ post.content }}</h2>
                 <p> {{ post.created_at }}  by {{ post.author }}</p>
-                <p>#{{ post.tag_set }}</p>
+                {% for key, value in post.tag_set.all.values.last.items %}
+                <p>{{ value }},</p>
+                {% endfor %}
             </div>
 
             <div class="{{post.id}}th-comment-wrapper-btn">
