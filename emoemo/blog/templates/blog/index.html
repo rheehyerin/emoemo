@@ -19,62 +19,86 @@ main
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <div class="main-wrapper" style="margin-top: 80px">
-        <header class="main-header">
-        {% if not user.is_authenticated %}
-        <form action="{% url 'accounts:login' %}" method="post">
+<div class="main-wrapper" style="margin-top: 80px">
+  <header class="main-header">
+  {% if not user.is_authenticated %}
+  <form action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
+    {{ login_form }}
+    <input type="submit" name="">
+  </form>
+  {% else %}
+  <a href="{% url 'accounts:logout' %}">로그아웃</a>
+  {% endif %}
+  </header>
+
+  <button id="write_posting_btn">글 남기기</button>
+    <div class="col-sm-6 col-sm-offset-3" >
+        <div id="write_posting">
+          <form action="{% url 'blog:post_create' %}" method="post">
           {% csrf_token %}
-          {{ login_form }}
-          <input type="submit" name="">
-        </form>
-        {% else %}
-        <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        {% endif %}
-        </header>
-        <div class="content-wrapper">
+              <input name="content" value="{{ content }}" placeholder="내용">
+              <input name="tag_set" value="{{ tag_set }}" placeholder="태그">
+              <input type="submit" value="OK" class="btn btn-primary">
+          </form>
+        </div>
+    </div>
 
-        <button id="write_posting_btn">글 남기기</button>
-        <div class="col-sm-6 col-sm-offset-3" >
-            <div id="write_posting">
-
-                <form action="{% url 'blog:post_create' %}" method="post">
-                {% csrf_token %}
-                    <input name="content" value="{{ content }}" placeholder="내용">
-                    <input name="tag_set" value="{{ tag_set }}" placeholder="태그">
-                    <input type="submit" value="OK" class="btn btn-primary">
-                </form>
+</div>
+{% for post in posts %}
+  <div class="card-wrapper">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="bs-component">
+            <div class="card">
+                <div class="card-content"><img class="card-avatar card-image" src="http://placehold.it/20x20 "> {{post.author}}
+                {% if request.user == post.author %}
+                <div class="pull-right">
+                  <a href="{% url 'blog:post_delete' post.id %}">삭제</a>
+                  <a href="{% url 'blog:post_update' post.id %}">수정</a>
                 </div>
-            </div>
-    <div class="main-wrapper">
-        <header class="main-header">
-        </header>
-        <div class="content-wrapper">
-        {% for post in posts %}
-        <div class="content">
-                <h2>{{ post.content }}</h2><p> {{ post.created_at }}  by {{ post.author }}</p>
-                <p>태그:{{ post.tag_set }}</p>
-        <button class="{{post.id}}th-comment-wrapper-btn">댓글 보기</button>
-        <div class="{{post.id}}th-comment-wrapper">
+                {% else %}
+                {% endif %}
+                </div>
+                <div class="card-content">
+                  <h2>{{ post.content }}</h2>
+                  <p> {{ post.created_at }}  by {{ post.author }}</p>
+                  <p>#{{ post.tag_set }}</p>
+                </div>
 
-                <ul>
-                    <form action="{% url 'blog:comment_create' post.id %}" method="post">
-                    {% csrf_token %}
-                        <input name="content" value="{{ content }}">
-                        <input type="submit" value="댓글 달기" class="btn btn-primary">
-                    </form>
-                    {% for comment in post.comment_set.all %}
-                    <li>
-                        {{comment.content}} by {{comment.author}}
-                        <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
-                        <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-          </div>
+                <div class="{{post.id}}th-comment-wrapper-btn">
+                    <i class="fa fa-comment"></i> {{comment_count}} comments
+                </div>
+                <div class="{{post.id}}th-comment-wrapper">
+                  <div class="card-extra card-comment">
+                      <div class="input-group">
+
+
+                        <form action="{% url 'blog:comment_create' post.id %}" method="post">
+                        {% csrf_token %}
+                          <input name="content" value="{{content}}" class="form-control" type="text" placeholder="댓글을 입력해주세요">
+                          <div class="input-group-btn">
+                              <input class="btn btn-inverted btn-default" type="submit" value="댓글 달기">
+                          </div>
+                        </form>
+                      {% for comment in post.comment_set.all %}
+                      <li>
+                          {{comment.content}} by {{comment.author}}
+                          <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
+                          <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
+                      </li>
+                      {% endfor %}
+
+                      </div>
+                  </div>
+                </div>
         </div>
-        </a>
-        {% endfor %}
-        </div>
+    </div>
+  </div>
+{% endfor %}
+
+
+</div>
+
         <footer></footer>
 
 
