@@ -20,7 +20,6 @@ main
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/font.css' %}"/>
 <div class="col-sm-6 col-sm-offset-3" >
-<button id="write_posting_btn">글 남기기</button>
     <div id="write_posting">
       <form action="{% url 'blog:post_create' %}" method="post">
       {% csrf_token %}
@@ -31,7 +30,7 @@ main
       <div class="form-group col-sm-4">
         <label for="id_tag_names">태그</label>
         <input class="form-control" id="id_tag_names" name="tag_names" placeholder="Tag names" required="required" title="" type="text">
-        <input type="submit" value="글쓰기" class="btn btn-primary" />
+        <input type="submit" value="글쓰기" class="btn btn-primary" style="margin: 10% 22% auto;"/>
       </div>
       </form>
       </div>
@@ -97,10 +96,7 @@ main
 
 </div>
     <script>
-    $("#write_posting_btn").click(function(){
-        $("#write_posting").slideToggle(1000);
 
-    })
 
     {% for post in post_list %}
       $(".{{post.id}}th-comment-wrapper-btn").click(function(){

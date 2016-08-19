@@ -85,22 +85,30 @@
     .nav_icon_img{
       position: relative;
       top:10px;
-      width:80px;
+      width:180px;
       height:50px;
     }
 
+    #user_name_p{
+      position: absolute;
+      top:15px;
+      right:70%;
+    }
+
     .nav_icon_img li{
+      position: absolute;
       display: block;
+      right:45%;
+      top:0px;
       width:30px;
-      float:left;
       margin:5%;
     }
 
 
     #logout_p{
-      position:absolute;
-      right:50%;
-      top:70%;
+      position: absolute;
+      right:20%;
+      top:40%;
     }
 
     .form-container{
@@ -180,13 +188,22 @@
     .follow_request{
       position:absolute;
       width:100%;
-      margin-top:90px;
+      height:60px;
       float:left;
+      border-bottom: 2px solid black;
     }
 
     #follow{
-      margin:0 10% auto;
+      margin:1% 10% auto;
+      width:200px;
       float:left;
+    }
+
+    #add_friend_img{
+      position: absolute;
+      left:300px;
+      width:50px;
+      height:50px;
     }
 
     .follow_request_list{
@@ -194,6 +211,8 @@
       width: 100%;
       margin-top: 150px;
     }
+
+
 
   </style>
     {% block head_extra %}
@@ -226,9 +245,11 @@
         </form>
     </div>
     <div class="nav navbar-nav" id="navigation_footer">
-    <ul class="nav_icon_img">
     {% if user.is_authenticated %}
-      <li><a href="{% url 'accounts:follow' %}" id="user_a"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
+    <ul class="nav_icon_img">
+      <p id="user_name_p">{{ user.username }} 님</p>
+      <li ><a href="{% url 'accounts:follow' %}" id="user_a"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
+      </ul>
       <p id="logout_p"><a href="{% url 'accounts:logout' %}">[logout]</a></p>
     {% else %}
     <div class="form-container">
@@ -241,7 +262,7 @@
       </form>
     </div>
     {% endif %}
-    </ul>
+
     </div>
   </div>
 </nav>
