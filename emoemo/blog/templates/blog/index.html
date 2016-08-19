@@ -17,8 +17,6 @@ main
 
 {% block content %}
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
 <!--
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
@@ -86,8 +84,9 @@ main
         <div id="write_posting">
           <form action="{% url 'blog:post_create' %}" method="post">
           {% csrf_token %}
-              <input name="content" value="{{ content }}" placeholder="내용">
-              <input name="tag_set" value="{{ tag_set }}" placeholder="태그">
+              <table>
+              {{ post_form.as_table }}
+              </table>
               <input type="submit" value="OK" class="btn btn-primary">
           </form>
         </div>

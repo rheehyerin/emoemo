@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.js'></script>
+  <script src="{% static "js/csrf.js" %}"></script>
   <script type="text/javascript">
       $(window).scroll(function(){
           if ($(window).scrollTop() >= 330) {
@@ -125,7 +125,7 @@
     input[type=search]:focus {
       width: 130px;
       background-color: #fff;
-      border-color: #66CC75;
+      border-color: #C52378;
 
       -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
       -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
@@ -170,6 +170,24 @@
       background: grey;
     }
 
+    .follow_request{
+      position:absolute;
+      width:100%;
+      margin-top:90px;
+      float:left;
+    }
+
+    #follow{
+      margin:0 10% auto;
+      float:left;
+    }
+
+    .follow_request_list{
+      position: absolute;
+      width: 100%;
+      margin-top: 150px;
+    }
+
 
 
   </style>
@@ -183,7 +201,6 @@
 
 
     <!-- Latest compiled and minified JavaScript -->
-    <script   src="http://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -206,7 +223,7 @@
     <div class="nav navbar-nav" id="navigation_footer">
     <ul class="nav_icon_img">
     {% if user.is_authenticated %}
-      <li><a href="#" id="user_a"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
+      <li><a href="{% url 'accounts:follow' %}" id="user_a"><img id="user" class="nav_img" href="mypage.html" src="{% static 'img/user.png' %}" style="width:30px;"></a></li>
       <p id="logout_p"><a href="{% url 'accounts:logout' %}">[logout]</a></p>
     {% else %}
     <div class="form-container">
