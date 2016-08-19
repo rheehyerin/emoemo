@@ -79,7 +79,7 @@ def comment_new(request):
 def index(request):
     follow_list = Follow.objects.filter(is_approved=True).filter(Q(to_user=request.user) | Q(from_user=request.user))
     friend_set = set()
-
+    search = request.GET.get('search', '')
     post_form = PostForm(request.POST, request.FILES)
 
     for follow in follow_list:
@@ -87,6 +87,8 @@ def index(request):
         friend_set.add(follow.from_user)
 
     post_list = Post.objects.filter(Q(author__in=friend_set) | Q(author=request.user)).annotate(comments_count=Count('comment'))
+    if search:
+        post_list = post_list.filter(tag_set__name__icontains=search)
 
     context = {
                 'post_list': post_list,
