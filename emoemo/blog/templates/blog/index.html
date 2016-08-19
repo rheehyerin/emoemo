@@ -16,14 +16,15 @@ main
 {% endblock head_title %}
 
 {% block content %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
         </header>
         <div class="content-wrapper">
-        <button onclick="myFunction()">글 남기기</button>
-
-
-        <div class="col-sm-6 col-sm-offset-3">
+        <button id="write_posting_btn">글 남기기</button>
+        <div class="col-sm-6 col-sm-offset-3" >
+            <div id="write_posting">
                 <form action="{% url 'blog:post_create' %}" method="post">
                 {% csrf_token %}
                     {% bootstrap_form form %}
@@ -33,6 +34,7 @@ main
                         </button>
                     {% endbuttons %}
                 </form>
+                </div>
             </div>
     <div class="main-wrapper">
         <header class="main-header">
@@ -51,4 +53,10 @@ main
         </div>
         <footer></footer>
     </div>
+    <script>
+    $("#write_posting_btn").click(function(){
+        $("#write_posting").slideToggle(1000);
+
+    })
+    </script>
     {% endblock content %}
