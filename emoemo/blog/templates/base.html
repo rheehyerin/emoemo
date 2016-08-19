@@ -20,6 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="your_path/smt-bootstrap.css">
+
   <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -168,6 +169,7 @@
     }
     .body {
       background: grey;
+      font-family: {{ themes.fonts|random }};
     }
 
     .follow_request{
@@ -187,8 +189,6 @@
       width: 100%;
       margin-top: 150px;
     }
-
-
 
   </style>
     {% block head_extra %}
@@ -217,7 +217,7 @@
     </div>
     <div>
         <form id="tag_search">
-          <input type="search" placeholder="검색">
+          <input name="" type="search" placeholder="검색">
         </form>
     </div>
     <div class="nav navbar-nav" id="navigation_footer">
@@ -236,7 +236,6 @@
       </form>
     </div>
     {% endif %}
-      <li><a href="#" id="howe_a"><img id="home" class="nav_img" href="mypage.html" src="{% static 'img/home.png' %}" style="width:30px;"></a></li>
     </ul>
     </div>
   </div>
