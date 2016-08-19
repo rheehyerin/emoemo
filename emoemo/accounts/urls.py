@@ -2,12 +2,16 @@ from django.conf.urls import url
 from django.contrib.auth.views import login, logout
 from accounts import views
 
+app_name="accounts"
 urlpatterns = [
     url(r'^login/$', login, name='login', kwargs={
-        'template_name': 'accounts/login.html',
+        'template_name': 'blog/index.html',
         }),
+    url(r'^login/$', views.my_log, name='my_log'),
     url(r'^signup/$', views.signup, name='signup'),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^logout/$', logout, name='logout', kwargs={
+        'template_name' : 'blog/index.html',
+        }),
     url(r'^index/$', views.index, name="index"),
     url(r'^follow/$', views.follow, name="follow"),
     url(r'^request_list/$', views.request_list, name="request_list"),

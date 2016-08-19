@@ -15,36 +15,115 @@
 main
 {% endblock head_title %}
 
-{% block head_extra %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-{% endblock head_extra %}
-
 {% block content %}
-    <div class="col-sm-6 col-sm-offset-3">
-        <form action="{% url 'blog:post_create' %}" method="post">
-        {% csrf_token %}
-            {% bootstrap_form form %}
-            {% buttons %}
-                <button type="submit" class="btn btn-primary">
-                {%  bootstrap_icon "star" %} Submit
-                </button>
-            {% endbuttons %}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <div class="main-wrapper" style="margin-top: 80px">
+        <header class="main-header">
+        {% if not user.is_authenticated %}
+        <form action="{% url 'accounts:login' %}" method="post">
+          {% csrf_token %}
+          {{ login_form }}
+          <input type="submit" name="">
         </form>
-        </div>
+        {% else %}
+        <a href="{% url 'accounts:logout' %}">로그아웃</a>
+        {% endif %}
+        </header>
+        <div class="content-wrapper">
+
+        <button id="write_posting_btn">글 남기기</button>
+        <div class="col-sm-6 col-sm-offset-3" >
+            <div id="write_posting">
+
+                <form action="{% url 'blog:post_create' %}" method="post">
+                {% csrf_token %}
+                    <input name="content" value="{{ content }}" placeholder="내용">
+                    <input name="tag_set" value="{{ tag_set }}" placeholder="태그">
+                    <input type="submit" value="OK" class="btn btn-primary">
+                </form>
+                </div>
+            </div>
     <div class="main-wrapper">
         <header class="main-header">
         </header>
         <div class="content-wrapper">
-        {% for post in post_list %}
-        <a href="{% url 'blog:post_detail' post.id %}">
+        {% for post in posts %}
         <div class="content">
-                <h2>{{ post.author }}</h2>
-                <p>{{ post.content }}</p>
+                <h2>{{ post.content }}</h2><p> {{ post.created_at }}  by {{ post.author }}</p>
+                <p>태그:{{ post.tag_set }}</p>
+        <button class="{{post.id}}th-comment-wrapper-btn">댓글 보기</button>
+        <div class="{{post.id}}th-comment-wrapper">
 
+                <ul>
+                    <form action="{% url 'blog:comment_create' post.id %}" method="post">
+                    {% csrf_token %}
+                        <input name="content" value="{{ content }}">
+                        <input type="submit" value="댓글 달기" class="btn btn-primary">
+                    </form>
+                    {% for comment in post.comment_set.all %}
+                    <li>
+                        {{comment.content}} by {{comment.author}}
+                        <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
+                        <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+          </div>
         </div>
         </a>
         {% endfor %}
         </div>
         <footer></footer>
-    </div>
-{% endblock content %}
+
+
+    <script>
+    $("#write_posting_btn").click(function(){
+        $("#write_posting").slideToggle(1000);
+
+    })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+     $("tag_set").bind("keyup", function () {
+
+      /* replaces text as you type with hashtags */
+
+      var input = $(this);
+      var value = input.val();
+      var ends_with_space = (value.substr(-1) == " ");
+
+      var hashed_value = "";
+      var parts = value.split(" ");
+      for (var i = 0; i < parts.length; i++) {
+       var part = parts[i];
+       if (part.indexOf("#") != 0) {
+        part = "#" + part;
+       }
+       if (part != "#") {
+        if (hashed_value == "") {
+         hashed_value = part;
+        } else {
+         hashed_value += " " + part;
+        }
+       }
+      }
+      if (ends_with_space) {
+       hashed_value = hashed_value + " ";
+      }
+      input.val(hashed_value.replace(",", ""));
+     });
+
+    });
+
+    {% for post in posts %}
+      $(".{{post.id}}th-comment-wrapper-btn").click(function(){
+        $(".{{post.id}}th-comment-wrapper").slideToggle(0);
+    })
+
+    {% endfor %}
+
+    </script>
+    {% endblock content %}
+
