@@ -169,9 +169,7 @@
       background: grey;
     }
 
-    body {
-      padding-top: 100px;
-    }
+
 
   </style>
     {% block head_extra %}
@@ -215,7 +213,8 @@
       {% csrf_token %}
       <input type="text" name="username" value="username">
       <input type="password" name="password" value="password">
-      <input type="submit" value="login" />
+      <input type="submit" value="login">
+      <a class="button" href="{% url 'accounts:signup' %}">sign-up</a>
       </form>
     </div>
     {% endif %}
@@ -230,7 +229,4 @@
 
     {%  endblock content%}
 </body>
-<script type="text/javascript">
-    #id_tag_set
-</script>
 </html>

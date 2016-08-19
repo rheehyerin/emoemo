@@ -21,15 +21,6 @@ main
 
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
-        {% if not user.is_authenticated %}
-        <form action="{% url 'accounts:login' %}" method="post">
-          {% csrf_token %}
-          {{ login_form }}
-          <input type="submit" name="">
-        </form>
-        {% else %}
-        <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        {% endif %}
         </header>
         <div class="content-wrapper">
 

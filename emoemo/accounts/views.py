@@ -17,14 +17,14 @@ def my_log(request):
 
 def signup(request):
     if request.method == 'POST':
-        login_form = SignupForm(request.POST)
-        if login_form.is_valid():
-            login_form.save()
+        sign_up_form = SignupForm(request.POST)
+        if sign_up_form.is_valid():
+            sign_up_form.save()
             return redirect(settings.LOGIN_URL)
     else:
-        login_form = SignupForm()
-    return render(request, 'signup_form.html', {
-        'login_form': login_form,
+        sign_up_form = SignupForm()
+    return render(request, 'accounts/signup_form.html', {
+        'sign_up_form': sign_up_form,
         })
 
 def index(request):
