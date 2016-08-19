@@ -6,3 +6,8 @@
     border-radius: 5px;
     margin-bottom: 50px;
 }
+
+.comment-list {
+    list-style: none;
+    margin-left: 20px;
+}

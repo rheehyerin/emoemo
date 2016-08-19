@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Post, Comment
 from django.contrib import messages
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
@@ -72,7 +73,7 @@ def comment_new(request):
     pass
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().annotate(comments_count=Count('comment'))
     login_form = AuthenticationForm()
     if request.method == 'POST' and request.is_ajax():
         form = PostForm(request.POST, request.FILES)

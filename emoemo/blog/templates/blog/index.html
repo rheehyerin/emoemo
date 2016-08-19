@@ -50,7 +50,7 @@ main
     <div class="col-sm-6 col-sm-offset-3">
         <div class="bs-component">
             <div class="card">
-                <div class="card-content"><img class="card-avatar card-image" src="http://placehold.it/20x20 "> {{post.author}}
+                <div class="card-content"><img class="card-avatar card-image" src="http://placehold.it/20x20 "> by {{post.author}}
                 {% if request.user == post.author %}
                 <div class="pull-right">
                   <a href="{% url 'blog:post_delete' post.id %}">삭제</a>
@@ -66,29 +66,33 @@ main
                 </div>
 
                 <div class="{{post.id}}th-comment-wrapper-btn">
-                    <i class="fa fa-comment"></i> {{comment_count}} comments
+                    <i class="fa fa-comment"></i> {{ post.comments_count }} comments
+
                 </div>
-                <div class="{{post.id}}th-comment-wrapper">
-                  <div class="card-extra card-comment">
-                      <div class="input-group">
-
-
-                        <form action="{% url 'blog:comment_create' post.id %}" method="post">
+                <form action="{% url 'blog:comment_create' post.id %}" method="post">
                         {% csrf_token %}
+                          <div class="input-group">
+
                           <input name="content" value="{{content}}" class="form-control" type="text" placeholder="댓글을 입력해주세요">
                           <div class="input-group-btn">
-                              <input class="btn btn-inverted btn-default" type="submit" value="댓글 달기">
+                              <input class="btn btn-inverted btn-default" type="submit"></a>
+                          </div>
                           </div>
                         </form>
+                <div class="{{post.id}}th-comment-wrapper">
+                  <div class="card-extra card-comment">
+
+
+                    <ul>
                       {% for comment in post.comment_set.all %}
-                      <li>
+                      <li class="comment-list">
                           {{comment.content}} by {{comment.author}}
                           <a href="{% url 'blog:comment_update' post.id comment.id %}">수정</a>
                           <a href="{% url 'blog:comment_delete' post.id comment.id %}">삭제</a>
                       </li>
                       {% endfor %}
-
-                      </div>
+                    </ul>
+                  </div>
                   </div>
                 </div>
         </div>
