@@ -1,17 +1,32 @@
 <script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
 
-<form id="follow" action="" method="POST">
-    {% csrf_token %}
-    <table>
-        {{ follow_form.as_table }}
-    </table>
-</form>
-    <button id="delay">A</button>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-<script>
+추가할 친구 ID :
+<form id="follow" action="{% url 'accounts:search_follow' %}" method="post">
+    {% csrf_token %}
+    <select name="to_user" class="search" style="width: 250px;">
+    {% for select_user in user_list %}
+  <option value="{{ select_user.pk }}">
+  {{ select_user.username }}
+  </option>
+    {% endfor %}
+</select>
+<!--<input type="submit" />-->
+</form>
+
+<button id="delay">A</button>
+
+
+<script type="text/javascript">
+$("#follow").ready(function() {
+  $(".search").select2();
+});
 
 $("#delay").click(function(){
     if(confirm("친구를 추가하시겠습니까?")==true){
+
         $("#follow").submit();
     }else{
     }

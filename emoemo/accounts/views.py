@@ -25,6 +25,8 @@ def index(request):
 
 @login_required
 def follow(request):
+    user_list = User.objects.all()
+
     if request.method == 'POST':
         follow_form = FollowModelForm(request.POST)
         if follow_form.is_valid():
@@ -35,7 +37,8 @@ def follow(request):
     else:
         follow_form = FollowModelForm()
     return render(request, 'accounts/follow_form.html', {
-        'follow_form': follow_form,
+        'form' : follow_form,
+        'user_list': user_list,
         })
 
 def request_list(request):
@@ -71,3 +74,12 @@ def del_request_list(request, pk):
     else:
         follow_request.delete()
     return redirect('accounts:request_list')
+
+def search_follow(request):
+    if request.method=="POST":
+        form = FollowModelForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.from_user = request.user
+            form.save()
+    return redirect('accounts:follow')
