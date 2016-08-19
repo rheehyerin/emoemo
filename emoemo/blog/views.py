@@ -1,10 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Post, Comment
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
 from accounts.models import *
+
+from django.contrib.auth.forms import AuthenticationForm
 
 # def post_list(request):
 #     post_list = Post.objects.all()
@@ -33,8 +35,10 @@ def post_create(request):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+    form = CommentForm()
     context = {
         "post":post,
+        "form":form,
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -43,6 +47,7 @@ def comment_new(request):
 
 def index(request):
     posts = Post.objects.order_by('pk').reverse()
+    login_form = AuthenticationForm()
     if request.method == 'POST' and request.is_ajax():
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -54,13 +59,17 @@ def index(request):
     else:
         form = PostForm()
     #posts = Post.objects.all()
-    return render(request, 'blog/index.html',
-        {'posts': posts,
-         'form':form}
-    )
+    context = {
+                'posts':posts,
+                'form':form,
+                'login_form':login_form,
+    }
+
+    return render(request, 'blog/index.html',context)
 
 def comment_create(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+
 
     if request.method == 'POST':
         form = CommentForm(request.POST or None, request.FILES or None)
@@ -69,7 +78,7 @@ def comment_create(request, post_id):
             instance.author = request.user
             instance.post = post
             instance.save()
-            return redirect('blog:post_detail', post_id)
+            return redirect('/', post_id)
     else:
         form = CommentForm()
 
@@ -90,7 +99,7 @@ def comment_update(request, post_id, comment_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('blog:post_detail', post_id)
+            return redirect('/')
     else:
         form = CommentForm(instance=comment)
     context = {
@@ -104,4 +113,4 @@ def comment_delete(request, post_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     comment.delete()
     messages.success(request, "삭제 완료")
-    return redirect("blog:post_detail", post_id)
+    return redirect("/")
