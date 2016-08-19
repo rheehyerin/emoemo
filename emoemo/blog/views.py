@@ -23,6 +23,7 @@ def post_create(request):
             instance = form.save(commit=False)
             instance.author = request.user
             instance.save()
+            instance.add_tags(form.cleaned_data['tag_names'])
             messages.success(request, "Successfully Created")
             return redirect("blog:index")
     else:
