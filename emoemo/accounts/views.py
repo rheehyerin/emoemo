@@ -4,17 +4,27 @@ from .models import Follow
 from django.shortcuts import redirect, render
 from .forms import SignupForm, FollowModelForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+
+def my_log(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+    else:
+        pass
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
+        login_form = SignupForm(request.POST)
+        if login_form.is_valid():
+            login_form.save()
             return redirect(settings.LOGIN_URL)
     else:
-        form = SignupForm()
-    return render(request, 'accounts/signup_form.html', {
-        'form': form,
+        login_form = SignupForm()
+    return render(request, 'signup_form.html', {
+        'login_form': login_form,
         })
 
 def index(request):
@@ -38,12 +48,14 @@ def follow(request):
         'follow_form': follow_form,
         })
 
+@login_required
 def request_list(request):
     follow_list = Follow.objects.filter(to_user=request.user)
     return render(request, 'accounts/follow_list.html',{
         'follow_list':follow_list,
         })
 
+@login_required
 def friend_list(request):
     follower_list = Follow.objects.filter(to_user=request.user).filter(is_approved=True)
     following_list = Follow.objects.filter(from_user=request.user).filter(is_approved=True)
@@ -52,6 +64,7 @@ def friend_list(request):
         'following_list':following_list,
         })
 
+@login_required
 def aprv_request_list(request, pk):
     try:
         follow_request = Follow.objects.get(pk=pk)
@@ -62,7 +75,7 @@ def aprv_request_list(request, pk):
         follow_request.save()
         return redirect('accounts:request_list')
 
-
+@login_required
 def del_request_list(request, pk):
     try:
         follow_request = Follow.objects.get(pk=pk)
