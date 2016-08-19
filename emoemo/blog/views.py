@@ -86,7 +86,7 @@ def index(request):
         friend_set.add(follow.to_user)
         friend_set.add(follow.from_user)
 
-    post_list = Post.objects.filter(author__in=friend_set).annotate(comments_count=Count('comment'))
+    post_list = Post.objects.filter(Q(author__in=friend_set) | Q(author=request.user)).annotate(comments_count=Count('comment'))
 
     context = {
                 'post_list': post_list,
