@@ -11,8 +11,8 @@ from django.core.urlresolvers import reverse
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_at = models.DateTimeField(default=timezone.now)
-    content = models.TextField(max_length=150, validators=[MinLengthValidatior(10)])
-    tag_set = models.ManyToManyField('Tag', blank=True)
+    content = models.TextField(max_length=150, validators=[MinLengthValidatior(6)])
+    tag_set = models.CharField(max_length=20, blank=True)
 
     # fonts # 폰트 선택
     # pallete # 색깔 선택
@@ -31,7 +31,7 @@ class Comment(models.Model):
         return self.post
 
 class Tag(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.ManyToManyField('Tag', blank=True)
 
     def __str__(self):
         return self.name
