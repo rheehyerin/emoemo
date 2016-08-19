@@ -25,8 +25,10 @@ class Post(models.Model):
 
     def add_tags(self, tag_names):
         for tag_name in tag_names:
-            tag, is_created = Tag.objects.get_or_create(name=tag_name)
-            self.tag_set.add(tag)
+            tag_name = tag_name.strip()
+            if tag_name:
+                tag, is_created = Tag.objects.get_or_create(name=tag_name)
+                self.tag_set.add(tag)
 
 
 class Comment(models.Model):
