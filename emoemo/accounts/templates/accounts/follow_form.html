@@ -1,27 +1,46 @@
-<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+{% extends 'base.html' %}
+
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-추가할 친구 ID :
+{% block content %}
+<div class="follow_request">
+
 <form id="follow" action="{% url 'accounts:search_follow' %}" method="post">
     {% csrf_token %}
     <select name="to_user" class="search" style="width: 250px;">
     {% for select_user in user_list %}
-  <option value="{{ select_user.pk }}">
-  {{ select_user.username }}
-  </option>
+        {% if select_user == request.user %}
+        {% else %}
+            <option value="{{ select_user.pk }}">
+                {{ select_user.username }}
+            </option>
+        {% endif %}
     {% endfor %}
 </select>
 <!--<input type="submit" />-->
 </form>
 
-<button id="delay">A</button>
+<button id="delay">팔로우 하기</button>
+<hr>
+</div>
+
+<div class="follow_request_list">
+{% include 'accounts/follow_list.html' %}
+</div>
 
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script type="text/javascript">
-$("#follow").ready(function() {
+$("#follow_request").ready(function() {
+
   $(".search").select2();
+  $(".select2-hidden-accessible").hide();
+  $(".select2-selection__rendered").html("Click Me for Following Friends");
+
+
 });
 
 $("#delay").click(function(){
@@ -31,32 +50,7 @@ $("#delay").click(function(){
     }else{
     }
 });
-/*
-$('#comments__new').click(function (e){
-    e.preventDefault();
-    $.ajax({
-        url: $(location).attr('href'),
-        type: 'POST',
-        data: {
-            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-            'message': $('form textarea[name=message]').val(),
-        },
-        success: function(data){
-            if (data){
-                $('.comments').html(data);
-            }
-            else{
-                console.error('데이터가 안넘어옴');
-            }
-        },
-        error: function(xhr,errmsg,err){
-            console.error(err);
-        },
-        complete: function() {
-            $.getScript(js_root, function(){});
-            $.getScript(customjs_root, function(){});
-        }
-    });
-});
-*/
 </script>
+
+
+{% endblock %}

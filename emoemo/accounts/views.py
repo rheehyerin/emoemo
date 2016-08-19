@@ -36,7 +36,7 @@ def index(request):
 @login_required
 def follow(request):
     user_list = User.objects.all()
-
+    follow_list = Follow.objects.filter(to_user=request.user)
     if request.method == 'POST':
         follow_form = FollowModelForm(request.POST)
         if follow_form.is_valid():
@@ -49,6 +49,7 @@ def follow(request):
     return render(request, 'accounts/follow_form.html', {
         'form' : follow_form,
         'user_list': user_list,
+        'follow_list' : follow_list,
         })
 
 @login_required
@@ -62,7 +63,7 @@ def request_list(request):
 def friend_list(request):
     follower_list = Follow.objects.filter(to_user=request.user).filter(is_approved=True)
     following_list = Follow.objects.filter(from_user=request.user).filter(is_approved=True)
-    return render(request, 'accounts/friend_list.html', {
+    return render(request, 'accounts/follow_form.html', {
         'follower_list':follower_list,
         'following_list':following_list,
         })
