@@ -37,12 +37,11 @@ main
       </div>
 </div>
 
-
 <div class="container marketing" style="position:relative;">
     <section id="blog-landing">
 
-        {% for post in posts %}
-            <article id="post-{{post.id}}" class="white-panel" style="background-color: {{ themes.background_colors|random }};opacity:0.8;font-family: {{ themes.fonts|random }} " ><div class="card-content"><img class="card-avatar card-image" src="http://placehold.it/20x20 "> by {{post.author}}
+        {% for post in post_list %}
+            <article id="post-{{post.id}}" class="white-panel" style="background-color: {{ themes.background_colors|random }};opacity:0.8;font-family: {{ themes.fonts|random }} " ><div class="card-content">
             <div class="card">
                 {% if request.user == post.author %}
                 <div class="pull-right">
@@ -52,20 +51,21 @@ main
                 </div>
                 {% else %}
                 {% endif %}
-            </div>
-            <div class="card-content">
-                <h2>{{ post.content }}</h2>
-                <p> {{ post.created_at }}  by {{ post.author }}</p>
+                </div>
+                <div class="card-content">
+                  <h2>{{ post.content }}</h2>
+                  <p> {{ post.created_at | date:"Y/m/d, g:i a" }}</p>
                 {% for key, value in post.tag_set.all.values.last.items %}
                 <p>{{ value }},</p>
                 {% endfor %}
-            </div>
+
+                </div>
 
             <div class="{{post.id}}th-comment-wrapper-btn">
                 <i class="fa fa-comment"></i> {{ post.comments_count }} comments
 
             </div>
-
+            <div id="sendpost">
             <form action="{% url 'blog:comment_create' post.id %}" method="post">
                 {% csrf_token %}
                 <div class="input-group">
@@ -75,7 +75,7 @@ main
                     </div>
                 </div>
             </form>
-
+            </div>
             <div class="{{post.id}}th-comment-wrapper">
               <div class="card-extra card-comment">
                 <ul>
@@ -103,7 +103,7 @@ main
 
     })
 
-    {% for post in posts %}
+    {% for post in post_list %}
       $(".{{post.id}}th-comment-wrapper-btn").click(function(){
         $(".{{post.id}}th-comment-wrapper").slideToggle(0);
     })
@@ -118,6 +118,7 @@ main
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="{% static 'js/pinterest_grid.js' %}"></script>
+<script src="{% static 'js/ajax.js' %}"></script>
 <script>
         $(document).ready(function() {
 

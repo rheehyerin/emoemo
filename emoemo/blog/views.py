@@ -1,14 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Post, Comment
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import PostForm, CommentForm
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
-
-from django.contrib.auth.forms import AuthenticationForm
 
 # def post_list(request):
 #     post_list = Post.objects.all()
@@ -17,6 +15,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def base(request):
     return render(request, 'base.html', {})
+
 @login_required
 def post_create(request):
     if request.method == 'POST':
@@ -25,8 +24,8 @@ def post_create(request):
             instance = post_form.save(commit=False)
             instance.author = request.user
             instance.save()
-            instance.add_tags(post_form.cleaned_data['tag_names'])
             messages.success(request, "Successfully Created")
+            instance.add_tags(post_form.cleaned_data['tag_names'])
             return redirect("blog:index")
     else:
         post_form = PostForm()
@@ -34,7 +33,7 @@ def post_create(request):
     context = {
         "post_form":post_form,
     }
-    return render(request, 'blog/post_form.html', context)
+    return render(request, 'blog/index.html', context)
 
 @login_required
 def post_update(request, post_id):
@@ -78,16 +77,23 @@ def comment_new(request):
 
 @login_required
 def index(request):
-    posts = Post.objects.all().annotate(comments_count=Count('comment'))
-    login_form = AuthenticationForm()
-    post_form = PostForm()
+    follow_list = Follow.objects.filter(is_approved=True).filter(Q(to_user=request.user) | Q(from_user=request.user))
+    friend_set = set()
+
+    post_form = PostForm(request.POST, request.FILES)
+
+    for follow in follow_list:
+        friend_set.add(follow.to_user)
+        friend_set.add(follow.from_user)
+
+    post_list = Post.objects.filter(Q(author__in=friend_set) | Q(author=request.user)).annotate(comments_count=Count('comment'))
+
     context = {
-                'posts':posts,
-                'post_form':post_form,
-                'login_form':login_form,
+                'post_list': post_list,
+                'post_form': post_form,
     }
 
-    return render(request, 'blog/index.html',context)
+    return render(request, 'blog/index.html', context)
 
 @login_required
 def comment_create(request, post_id):
@@ -110,7 +116,6 @@ def comment_create(request, post_id):
     }
 
     return render(request, 'blog/comment_form.html', context)
-
 
 @login_required
 def comment_update(request, post_id, comment_id):
@@ -140,4 +145,3 @@ def comment_delete(request, post_id, comment_id):
     comment.delete()
     messages.success(request, "삭제 완료")
     return redirect("/")
-
