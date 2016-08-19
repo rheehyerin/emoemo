@@ -18,7 +18,7 @@ main
 {% block content %}
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+<link rel="stylesheet" type="text/css" href="{% static 'css/font.css' %}"/>
 <!--
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
@@ -95,7 +95,14 @@ main
 
 </div>
 {% for post in posts %}
-  <div class="card-wrapper">
+   <style type="text/css" media="screen, print">
+
+   #post-{{ post.id }} h2 {
+    font-family: {{ themes.fonts|random }};
+   }
+  </style>
+
+  <div id="post-{{ post.id }}" class="card-wrapper">
     <div class="col-sm-6 col-sm-offset-3" style="background-color: {{ themes.background_colors|random }}">
         <div class="bs-component">
             <div class="card">
@@ -109,7 +116,9 @@ main
                 {% endif %}
                 </div>
                 <div class="card-content">
+
                   <h2>{{ post.content }}</h2>
+
                   <p> {{ post.created_at }}  by {{ post.author }}</p>
                   <p>#{{ post.tag_set }}</p>
                 </div>
