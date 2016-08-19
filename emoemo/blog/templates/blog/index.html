@@ -19,8 +19,6 @@ main
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-
-
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
         {% if not user.is_authenticated %}
@@ -55,6 +53,9 @@ main
         <div class="content">
                 <h2>{{ post.content }}</h2><p> {{ post.created_at }}  by {{ post.author }}</p>
                 <p>태그:{{ post.tag_set }}</p>
+        <button class="{{post.id}}th-comment-wrapper-btn">댓글 보기</button>
+        <div class="{{post.id}}th-comment-wrapper">
+
                 <ul>
                     <form action="{% url 'blog:comment_create' post.id %}" method="post">
                     {% csrf_token %}
@@ -69,12 +70,13 @@ main
                     </li>
                     {% endfor %}
                 </ul>
+          </div>
         </div>
         </a>
         {% endfor %}
         </div>
         <footer></footer>
-    </div>
+
 
     <script>
     $("#write_posting_btn").click(function(){
@@ -115,5 +117,13 @@ main
 
     });
 
+    {% for post in posts %}
+      $(".{{post.id}}th-comment-wrapper-btn").click(function(){
+        $(".{{post.id}}th-comment-wrapper").slideToggle(1000);
+    })
+
+    {% endfor %}
+
     </script>
     {% endblock content %}
+
