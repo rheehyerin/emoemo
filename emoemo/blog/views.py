@@ -41,7 +41,7 @@ def comment_new(request):
     pass
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.order_by('pk').reverse()
     if request.method == 'POST' and request.is_ajax():
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():

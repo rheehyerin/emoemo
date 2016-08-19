@@ -16,22 +16,20 @@ main
 {% endblock head_title %}
 
 {% block content %}
+
     <div class="main-wrapper" style="margin-top: 80px">
         <header class="main-header">
         </header>
         <div class="content-wrapper">
-        <button onclick="myFunction()">글 남기기</button>
+        <button id="button1" onclick="myFunction()">글 남기기</button>
 
 
         <div class="col-sm-6 col-sm-offset-3">
                 <form action="{% url 'blog:post_create' %}" method="post">
                 {% csrf_token %}
-                    {% bootstrap_form form %}
-                    {% buttons %}
-                        <button type="submit" class="btn btn-primary">
-                        {%  bootstrap_icon "star" %} Submit
-                        </button>
-                    {% endbuttons %}
+                    <input name="content" value="{{ content }}">
+                    <input name="tag_set" value="{{ tag_set }}">
+                    <input type="submit" value="OK" class="btn btn-primary">
                 </form>
             </div>
     <div class="main-wrapper">
@@ -43,7 +41,8 @@ main
         <div class="content">
                 <h2>{{ post.author }}</h2>
                 <p>{{ post.content }}</p>
-                <p> asdasd </p>
+                <p>{{ post.created_at }}</p>
+                <p>{{ post.tag_set }}</p>
             </a>
         </div>
         </a>
@@ -51,4 +50,37 @@ main
         </div>
         <footer></footer>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+     $("tag_set").bind("keyup", function () {
+
+      /* replaces text as you type with hashtags */
+
+      var input = $(this);
+      var value = input.val();
+      var ends_with_space = (value.substr(-1) == " ");
+
+      var hashed_value = "";
+      var parts = value.split(" ");
+      for (var i = 0; i < parts.length; i++) {
+       var part = parts[i];
+       if (part.indexOf("#") != 0) {
+        part = "#" + part;
+       }
+       if (part != "#") {
+        if (hashed_value == "") {
+         hashed_value = part;
+        } else {
+         hashed_value += " " + part;
+        }
+       }
+      }
+      if (ends_with_space) {
+       hashed_value = hashed_value + " ";
+      }
+      input.val(hashed_value.replace(",", ""));
+     });
+
+    });
+    </script>
     {% endblock content %}
