@@ -6,6 +6,9 @@ from .forms import SignupForm, FollowModelForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.db.models import Count, Q
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+
 
 def my_log(request):
     username = request.POST['username']
@@ -79,16 +82,19 @@ def friend_list(request):
         friend_set.discard(request.user)
     return redirect('accounts:friend_list')
 
+
 @login_required
+@require_POST
 def aprv_request_list(request, pk):
     try:
         follow_request = Follow.objects.get(pk=pk)
     except follow_request.DoesNotExist:
-        return redirect('accounts:request_list')
+        return JsonResponse({"ok": False}, safe=False)
     else:
         follow_request.is_approved = True
         follow_request.save()
-        return redirect('accounts:request_list')
+        return JsonResponse({"ok": True, "from_user_name": follow_request.from_user.username, "to_user_name": follow_request.to_user.username}, safe=False)
+
 
 @login_required
 def del_request_list(request, pk):

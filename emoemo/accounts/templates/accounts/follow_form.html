@@ -39,12 +39,12 @@
 </div>
 -->
 <div style="position:relative; top:70px; width:50%; float:right;">친구 목록
-<div class="show_friend_list">
-<ul>
-{% for friend in friend_set %}
-<li>{{ friend }}<li>
-{% endfor %}
-<ul>
+<div id="show_friend_list">
+    <ul>
+        {% for friend_user in friend_set %}
+            <li>{{ friend_user.username }}<li>
+        {% endfor %}
+    </ul>
 </div>
 </div>
 

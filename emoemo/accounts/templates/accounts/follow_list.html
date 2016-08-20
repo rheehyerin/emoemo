@@ -25,8 +25,9 @@ $(function() {
         var message = $(this).data("message");
         var target_id = $(this).data("id");
         if(confirm(message)) {
-            $.post(url).done(function() {
+            $.post(url).done(function(response) {
                 $("#" + target_id).remove();
+                $("#show_friend_list ul").append("<li>" + response.from_user_name + "</li>");
             });
         }
         return false;
