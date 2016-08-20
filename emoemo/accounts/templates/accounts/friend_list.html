@@ -1,10 +1,6 @@
-<p> follower list </p>
-
-{% for follower in follower_list %}
-{{ follower.from_user.username }}<br />
+{% extends 'base.html' %}
+<div>
+{% for friend in friend_set %}
+{{ friend }}
 {% endfor %}
-<hr>
-<p> following list </p>
-{% for following in following_list %}
-{{ following.to_user.username }}<br />
-{% endfor %}
+</div>

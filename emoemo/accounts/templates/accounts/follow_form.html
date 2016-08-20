@@ -19,6 +19,7 @@
         {% endif %}
     {% endfor %}
 </select>
+<!--<a class="submit"><img src="{% static 'img/add_friend.png' %}" id="add_friend_img" ></a>-->
 <!--<input type="submit" />-->
 </form>
 
@@ -26,10 +27,27 @@
 
 </div>
 
-
+<p style="position:absolute; top:150px;">친구 추가 요청 목록</p>
 <div class="follow_request_list">
+
 {% include 'accounts/follow_list.html' %}
 </div>
+
+<!--
+<a href="{% url 'accounts:friend_list' %}" id="show_friend_a" style="position:absolute; right:0pc">친구 목록 보기</a>
+<div data-id="show_friend">
+</div>
+-->
+<div style="position:relative; top:70px; width:50%; float:right;">친구 목록
+<div class="show_friend_list">
+<ul>
+{% for friend in friend_set %}
+<li>{{ friend }}<li>
+{% endfor %}
+<ul>
+</div>
+</div>
+
 
 
 
@@ -48,9 +66,11 @@ $("#follow_request").ready(function() {
 $("#delay").click(function(){
     if(confirm("친구를 추가하시겠습니까?")){
         $("#follow").submit();
-    }else{
     }
 });
+
+
+
 </script>
 
 

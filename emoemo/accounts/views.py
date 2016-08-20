@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from .forms import SignupForm, FollowModelForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.db.models import Count, Q
 
 def my_log(request):
     username = request.POST['username']
@@ -36,7 +37,14 @@ def index(request):
 @login_required
 def follow(request):
     user_list = User.objects.all()
-    follow_list = Follow.objects.filter(to_user=request.user)
+    follow_list = Follow.objects.filter(is_approved=False).filter(to_user=request.user)
+    follower_list = Follow.objects.filter(is_approved=True).filter(Q(to_user=request.user) | Q(from_user=request.user))
+    friend_set = set()
+    for follow in follower_list:
+        friend_set.add(follow.to_user)
+        friend_set.add(follow.from_user)
+    if request.user in friend_set:
+        friend_set.discard(request.user)
     if request.method == 'POST':
         follow_form = FollowModelForm(request.POST)
         if follow_form.is_valid():
@@ -50,6 +58,7 @@ def follow(request):
         'form' : follow_form,
         'user_list': user_list,
         'follow_list' : follow_list,
+        'friend_set' : friend_set,
         })
 
 @login_required
@@ -61,12 +70,14 @@ def request_list(request):
 
 @login_required
 def friend_list(request):
-    follower_list = Follow.objects.filter(to_user=request.user).filter(is_approved=True)
-    following_list = Follow.objects.filter(from_user=request.user).filter(is_approved=True)
-    return render(request, 'accounts/follow_form.html', {
-        'follower_list':follower_list,
-        'following_list':following_list,
-        })
+    follower_list = Follow.objects.filter(is_approved=True).filter(Q(to_user=request.user) | Q(from_user=request.user))
+    friend_set = set()
+    for follow in follower_list:
+        friend_set.add(follow.to_user)
+        friend_set.add(follow.from_user)
+    if request.user in friend_set:
+        friend_set.discard(request.user)
+    return redirect('accounts:friend_list')
 
 @login_required
 def aprv_request_list(request, pk):
